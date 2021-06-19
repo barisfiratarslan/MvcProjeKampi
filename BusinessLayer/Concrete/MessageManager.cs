@@ -33,6 +33,16 @@ namespace BusinessLayer.Concrete
             return _messageDal.List(x => x.SenderMail == "admin@gmail.com");
         }
 
+        public int GetUnReadenInboxNumber()
+        {
+            return _messageDal.List(x => x.ReceiverMail == "admin@gmail.com" && x.MessageIsReaden == false).Count();
+        }
+
+        public int GetUnReadenSendboxNumber()
+        {
+            return _messageDal.List(x => x.SenderMail == "admin@gmail.com" && x.MessageIsReaden == false).Count();
+        }
+
         public void MessageAdd(Message message)
         {
             _messageDal.Insert(message);
@@ -45,7 +55,7 @@ namespace BusinessLayer.Concrete
 
         public void MessageUpdate(Message message)
         {
-            throw new NotImplementedException();
+            _messageDal.Update(message);
         }
     }
 }

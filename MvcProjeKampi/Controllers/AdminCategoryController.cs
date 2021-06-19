@@ -14,7 +14,8 @@ namespace MvcProjeKampi.Controllers
     public class AdminCategoryController : Controller
     {
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
-        // GET: AdminCategory
+
+        [Authorize(Roles = "B")]
         public ActionResult Index()
         {
             var categoryValues = categoryManager.GetList();
@@ -39,7 +40,7 @@ namespace MvcProjeKampi.Controllers
             }
             else
             {
-                foreach(var item in results.Errors)
+                foreach (var item in results.Errors)
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }

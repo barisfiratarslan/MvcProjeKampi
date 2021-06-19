@@ -31,12 +31,16 @@ namespace MvcProjeKampi.Controllers
         public ActionResult GetInboxMessageDetails(int id)
         {
             var values = messageManager.GetByID(id);
+            values.MessageIsReaden = true;
+            messageManager.MessageUpdate(values);
             return View(values);
         }
 
         public ActionResult GetSendboxMessageDetails(int id)
         {
             var values = messageManager.GetByID(id);
+            values.MessageIsReaden = true;
+            messageManager.MessageUpdate(values);
             return View(values);
         }
 
@@ -61,6 +65,38 @@ namespace MvcProjeKampi.Controllers
                 ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
             }
             return View();
+        }
+
+        public ActionResult Readen(int id)
+        {
+            var values = messageManager.GetByID(id);
+            values.MessageIsReaden = true;
+            messageManager.MessageUpdate(values);
+            return RedirectToAction("Inbox");
+        }
+
+        public ActionResult UnReaden(int id)
+        {
+            var values = messageManager.GetByID(id);
+            values.MessageIsReaden = false;
+            messageManager.MessageUpdate(values);
+            return RedirectToAction("Inbox");
+        }
+
+        public ActionResult SenReaden(int id)
+        {
+            var values = messageManager.GetByID(id);
+            values.MessageIsReaden = true;
+            messageManager.MessageUpdate(values);
+            return RedirectToAction("Sendbox");
+        }
+
+        public ActionResult SenUnReaden(int id)
+        {
+            var values = messageManager.GetByID(id);
+            values.MessageIsReaden = false;
+            messageManager.MessageUpdate(values);
+            return RedirectToAction("Sendbox");
         }
     }
 }
