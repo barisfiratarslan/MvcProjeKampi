@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
+using EntityLayer.Concrete;
 using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,20 @@ namespace BusinessLayer.Concrete
         {
             String[] result = _adminDal.List(x => x.AdminUserName == userName).Select(x => x.AdminRole).ToArray();
             return result;
+        }
+
+        public void AddAdmin(AdminDto admin)
+        {
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(admin.Password, out passwordHash, out passwordSalt);
+            var ad = new Admin
+            {
+                AdminUserName = admin.UserName,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                AdminRole = "A"
+            };
+            _adminDal.Insert(ad);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace BusinessLayer.Abstract
     {
         bool IsExist(AdminDto admin);
         string[] GetRoles(string userName);
+        void AddAdmin(AdminDto admin);
     }
 }

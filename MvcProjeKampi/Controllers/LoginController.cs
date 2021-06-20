@@ -35,6 +35,8 @@ namespace MvcProjeKampi.Controllers
             {
                 return View();
             }
+            //adminManager.AddAdmin(admin);
+            //return View();
         }
     }
 }
