@@ -11,10 +11,13 @@ namespace MvcProjeKampi.Controllers
     public class WriterPanelContentController : Controller
     {
         ContentManager contentManager = new ContentManager(new EfContentDal());
+        WriterManager writerManager = new WriterManager(new EfWriterDal());
 
-        public ActionResult MyContent()
+        public ActionResult MyContent(string p)
         {
-            var contentValues = contentManager.GetListByWriter();
+            p = (string)Session["WriterMail"];
+            var writerIDInfo = writerManager.GetIDByMail(p);
+            var contentValues = contentManager.GetListByWriter(writerIDInfo);
             return View(contentValues);
         }
     }

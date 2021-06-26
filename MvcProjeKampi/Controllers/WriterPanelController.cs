@@ -13,22 +13,26 @@ namespace MvcProjeKampi.Controllers
     {
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+        WriterManager writerManager = new WriterManager(new EfWriterDal());
 
         public ActionResult WriterProfile()
         {
             return View();
         }
 
-        public ActionResult MyHeading()
+        public ActionResult MyHeading(string p)
         {
-            int id = 4;
-            var values = headingManager.GetListByWriter(id);
+            p = (string)Session["WriterMail"];
+            var writerIDInfo = writerManager.GetIDByMail(p);
+            var values = headingManager.GetListByWriter(writerIDInfo);
             return View(values);
         }
 
         [HttpGet]
         public ActionResult NewHeading()
         {
+            string deger= (string)Session["WriterMail"];
+            ViewBag.m = deger;
             List<SelectListItem> valueCategory = (from x in categoryManager.GetList()
                                                   select new SelectListItem
                                                   {
@@ -42,11 +46,14 @@ namespace MvcProjeKampi.Controllers
         [HttpPost]
         public ActionResult NewHeading(Heading heading)
         {
+            string writerMailInfo = (string)Session["WriterMail"];
+            var writerIDInfo = writerManager.GetIDByMail(writerMailInfo);
+            ViewBag.d = writerIDInfo;
             heading.HeadingDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-            heading.WriterID = 4;
+            heading.WriterID = 3;
             heading.HeadingStatus = true;
             headingManager.HeadingAdd(heading);
-            return RedirectToAction("WriterProfile");
+            return RedirectToAction("MyHeading");
         }
 
         [HttpGet]

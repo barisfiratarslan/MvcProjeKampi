@@ -1,4 +1,5 @@
 ﻿using EntityLayer.Concrete;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace BusinessLayer.Abstract
         void WriterDelete(Writer writer);
         void WriterUpdate(Writer writer);
         Writer GetByID(int id);
+        int GetIDByMail(string writerMail);
+        Writer WriterExist(AdminDto admin);
     }
 }

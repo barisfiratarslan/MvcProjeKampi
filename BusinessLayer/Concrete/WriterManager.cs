@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
 using EntityLayer.Concrete;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace BusinessLayer.Concrete
             return _writerDal.Get(x => x.WriterID == id);
         }
 
+        public int GetIDByMail(string writerMail)
+        {
+            return _writerDal.Get(x => x.WriterMail == writerMail).WriterID;
+        }
+
         public List<Writer> getList()
         {
             return _writerDal.List();
@@ -36,6 +42,12 @@ namespace BusinessLayer.Concrete
         public void WriterDelete(Writer writer)
         {
             _writerDal.Delete(writer);
+        }
+
+        public Writer WriterExist(AdminDto admin)
+        {
+            var ad = _writerDal.Get(x => x.WriterMail == admin.UserName && x.WriterPassword==admin.Password);
+            return ad;
         }
 
         public void WriterUpdate(Writer writer)

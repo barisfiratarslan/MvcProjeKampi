@@ -11,9 +11,11 @@ using System.Web.Security;
 
 namespace MvcProjeKampi.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         AdminManager adminManager = new AdminManager(new EfAdminDal());
+        WriterManager writerManager = new WriterManager(new EfWriterDal());
 
         [HttpGet]
         public ActionResult Index()
@@ -37,6 +39,28 @@ namespace MvcProjeKampi.Controllers
             }
             //adminManager.AddAdmin(admin);
             //return View();
+        }
+
+        [HttpGet]
+        public ActionResult WriterLogin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult WriterLogin(AdminDto admin)
+        {
+            var writerUserInfo = writerManager.WriterExist(admin);
+            if (writerUserInfo != null)
+            {
+                FormsAuthentication.SetAuthCookie(admin.UserName, false);
+                Session["WriterMail"] = writerUserInfo.WriterMail;
+                return RedirectToAction("MyContent", "WriterPanelContent");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }
