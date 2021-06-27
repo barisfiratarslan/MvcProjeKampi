@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class WriterPanelController : Controller
     {
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
@@ -86,6 +87,12 @@ namespace MvcProjeKampi.Controllers
             headingValue.HeadingStatus = false;
             headingManager.HeadingDelete(headingValue);
             return RedirectToAction("MyHeading");
+        }
+
+        public ActionResult AllHeading()
+        {
+            var headings = headingManager.GetList();
+            return View(headings);
         }
     }
 }
