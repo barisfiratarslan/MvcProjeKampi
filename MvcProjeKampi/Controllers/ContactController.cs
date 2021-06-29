@@ -29,8 +29,9 @@ namespace MvcProjeKampi.Controllers
 
         public PartialViewResult MessageListMenu()
         {
-            ViewBag.inbox = messageManager.GetUnReadenInboxNumber();
-            ViewBag.sendbox = messageManager.GetUnReadenSendboxNumber();
+            string mail = (string)Session["WriterMail"];
+            ViewBag.inbox = messageManager.GetUnReadenInboxNumber(mail);
+            ViewBag.sendbox = messageManager.GetUnReadenSendboxNumber(mail);
             return PartialView();
         }
     }

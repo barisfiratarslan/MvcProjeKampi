@@ -23,24 +23,24 @@ namespace BusinessLayer.Concrete
             return _messageDal.Get(x => x.MessageID == id);
         }
 
-        public List<Message> GetListInbox()
+        public List<Message> GetListInbox(string mail)
         {
-            return _messageDal.List(x => x.ReceiverMail == "gizem.yildiz@gmail.com");
+            return _messageDal.List(x => x.ReceiverMail == mail);
         }
 
-        public List<Message> GetListSendbox()
+        public List<Message> GetListSendbox(string mail)
         {
-            return _messageDal.List(x => x.SenderMail == "gizem.yildiz@gmail.com");
+            return _messageDal.List(x => x.SenderMail == mail);
         }
 
-        public int GetUnReadenInboxNumber()
+        public int GetUnReadenInboxNumber(string mail)
         {
-            return _messageDal.List(x => x.ReceiverMail == "gizem.yildiz@gmail.com" && x.MessageIsReaden == false).Count();
+            return _messageDal.List(x => x.ReceiverMail == mail && x.MessageIsReaden == false).Count();
         }
 
-        public int GetUnReadenSendboxNumber()
+        public int GetUnReadenSendboxNumber(string mail)
         {
-            return _messageDal.List(x => x.SenderMail == "gizem.yildiz@gmail.com" && x.MessageIsReaden == false).Count();
+            return _messageDal.List(x => x.SenderMail == mail && x.MessageIsReaden == false).Count();
         }
 
         public void MessageAdd(Message message)

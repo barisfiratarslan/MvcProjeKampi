@@ -11,7 +11,6 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
-    [Authorize]
     public class WriterPanelMessageController : Controller
     {
         MessageManager messageManager = new MessageManager(new EfMessageDal());
@@ -19,13 +18,15 @@ namespace MvcProjeKampi.Controllers
 
         public ActionResult Inbox()
         {
-            var messageList = messageManager.GetListInbox();
+            string mail = (string)Session["WriterMail"];
+            var messageList = messageManager.GetListInbox(mail);
             return View(messageList);
         }
 
         public ActionResult Sendbox()
         {
-            var messageList = messageManager.GetListSendbox();
+            string mail = (string)Session["WriterMail"];
+            var messageList = messageManager.GetListSendbox(mail);
             return View(messageList);
         }
 
@@ -47,8 +48,9 @@ namespace MvcProjeKampi.Controllers
 
         public PartialViewResult MessageListMenu()
         {
-            ViewBag.inbox = messageManager.GetUnReadenInboxNumber();
-            ViewBag.sendbox = messageManager.GetUnReadenSendboxNumber();
+            string mail = (string)Session["WriterMail"];
+            ViewBag.inbox = messageManager.GetUnReadenInboxNumber(mail);
+            ViewBag.sendbox = messageManager.GetUnReadenSendboxNumber(mail);
             return PartialView();
         }
 
@@ -61,11 +63,12 @@ namespace MvcProjeKampi.Controllers
         [HttpPost]
         public ActionResult NewMessage(Message message)
         {
+            string sender = (string)Session["WriterMail"];
             ValidationResult results = messageValidator.Validate(message);
             if (results.IsValid)
             {
                 message.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-                message.SenderMail = "gizem.yildiz@gmail.com";
+                message.SenderMail = sender;
                 messageManager.MessageAdd(message);
                 return RedirectToAction("Sendbox");
             }

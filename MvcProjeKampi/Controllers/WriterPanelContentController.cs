@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
-    [Authorize]
     public class WriterPanelContentController : Controller
     {
         ContentManager contentManager = new ContentManager(new EfContentDal());

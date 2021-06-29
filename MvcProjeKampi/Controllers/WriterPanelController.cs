@@ -1,6 +1,10 @@
 ﻿using BusinessLayer.Concrete;
+using BusinessLayer.ValidationRules;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using FluentValidation.Results;
+using PagedList;
+using PagedList.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +13,37 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
-    [Authorize]
     public class WriterPanelController : Controller
     {
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
         WriterManager writerManager = new WriterManager(new EfWriterDal());
 
+        [HttpGet]
         public ActionResult WriterProfile()
         {
-            return View();
+            string p = (string)Session["WriterMail"];
+            ViewBag.d = p;
+            int id = writerManager.GetIDByMail(p);
+            var writerValue = writerManager.GetByID(id);
+            return View(writerValue);
+        }
+
+        [HttpPost]
+        public ActionResult WriterProfile(Writer writer)
+        {
+            WriterValidator writerValidator = new WriterValidator();
+            ValidationResult results = writerValidator.Validate(writer);
+            if (results.IsValid)
+            {
+                writerManager.WriterUpdate(writer);
+                return RedirectToAction("Index");
+            }
+            foreach (var item in results.Errors)
+            {
+                ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+            }
+            return RedirectToAction("AllHeading", "WriterPanel");
         }
 
         public ActionResult MyHeading(string p)
@@ -32,7 +57,7 @@ namespace MvcProjeKampi.Controllers
         [HttpGet]
         public ActionResult NewHeading()
         {
-            string deger= (string)Session["WriterMail"];
+            string deger = (string)Session["WriterMail"];
             ViewBag.m = deger;
             List<SelectListItem> valueCategory = (from x in categoryManager.GetList()
                                                   select new SelectListItem
@@ -89,9 +114,9 @@ namespace MvcProjeKampi.Controllers
             return RedirectToAction("MyHeading");
         }
 
-        public ActionResult AllHeading()
+        public ActionResult AllHeading(int sayfa = 1)
         {
-            var headings = headingManager.GetList();
+            var headings = headingManager.GetList().ToPagedList(sayfa, 4);
             return View(headings);
         }
     }
