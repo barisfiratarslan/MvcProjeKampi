@@ -56,5 +56,10 @@ namespace BusinessLayer.Concrete
         {
             return _contentDal.List(x => x.WriterID == id);
         }
+
+        public int GetnumberByWriter(int id)
+        {
+            return _contentDal.List(x => x.WriterID == id).Count;
+        }
     }
 }

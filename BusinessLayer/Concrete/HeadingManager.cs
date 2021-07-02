@@ -23,6 +23,11 @@ namespace BusinessLayer.Concrete
             return _headingDal.Get(x => x.HeadingID == id);
         }
 
+        public int GetCountByCategory(int categoryID)
+        {
+            return _headingDal.List(x => x.CategoryID == categoryID).Count;
+        }
+
         public List<Heading> GetList()
         {
             return _headingDal.List();

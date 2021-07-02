@@ -69,5 +69,25 @@ namespace BusinessLayer.Concrete
             };
             _adminDal.Insert(ad);
         }
+
+        public List<Admin> GetList()
+        {
+            return _adminDal.List();
+        }
+
+        public Admin GetByID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CategoryDelete(Admin admin)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CategoryUpdate(Admin admin)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
