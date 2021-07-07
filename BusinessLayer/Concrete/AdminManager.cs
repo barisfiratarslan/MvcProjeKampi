@@ -52,7 +52,7 @@ namespace BusinessLayer.Concrete
 
         public string[] GetRoles(string userName)
         {
-            String[] result = _adminDal.List(x => x.AdminUserName == userName).Select(x => x.AdminRole).ToArray();
+            string[] result = _adminDal.List(x => x.AdminUserName == userName).Select(x => x.AdminRole).ToArray();
             return result;
         }
 
@@ -65,7 +65,7 @@ namespace BusinessLayer.Concrete
                 AdminUserName = admin.UserName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                AdminRole = "A"
+                AdminRole = admin.AdminRole
             };
             _adminDal.Insert(ad);
         }
@@ -77,17 +77,31 @@ namespace BusinessLayer.Concrete
 
         public Admin GetByID(int id)
         {
-            throw new NotImplementedException();
+            return _adminDal.Get(x => x.AdminID == id);
         }
 
-        public void CategoryDelete(Admin admin)
+        public void AdminDelete(AdminDto admin)
         {
             throw new NotImplementedException();
         }
 
-        public void CategoryUpdate(Admin admin)
+        public void AdminUpdate(AdminDto admin)
         {
-            throw new NotImplementedException();
+            byte[] passwordHash, passwordSalt;
+            var ad = _adminDal.Get(x => x.AdminUserName == admin.UserName);
+            if (admin.Password != null)
+            {
+                CreatePasswordHash(admin.Password, out passwordHash, out passwordSalt);
+                ad.PasswordHash = passwordHash;
+                ad.PasswordSalt = passwordSalt;
+            }
+            ad.AdminRole = admin.AdminRole;
+            _adminDal.Update(ad);
+        }
+
+        public Admin GetByName(string username)
+        {
+            return _adminDal.Get(x => x.AdminUserName == username);
         }
     }
 }

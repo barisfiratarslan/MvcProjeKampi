@@ -18,14 +18,14 @@ namespace MvcProjeKampi.Controllers
 
         public ActionResult Inbox()
         {
-            string mail = (string)Session["WriterMail"];
+            string mail = (string)Session["AdminUserName"];
             var messageList = messageManager.GetListInbox(mail);
             return View(messageList);
         }
 
         public ActionResult Sendbox()
         {
-            string mail = (string)Session["WriterMail"];
+            string mail = (string)Session["AdminUserName"];
             var messageList = messageManager.GetListSendbox(mail);
             return View(messageList);
         }

@@ -1,0 +1,22 @@
+﻿@model EntityLayer.DTOs.AdminDto
+
+@{
+    ViewBag.Title = "EditAdmin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("EditAdmin", "Authorization", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.Label("Admin Kullanıcı Adı")
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+        <br /><br />
+        @Html.Label("Şifreyi Giriniz")
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
+        <br /><br />
+        @Html.Label("Rolü Seçiniz")
+        @Html.DropDownListFor(x => x.AdminRole, (List<SelectListItem>)ViewBag.vr, new { @class = "form-control" })
+        <br /><br />
+        <button id="btn3" class="btn btn-info">Kaydet</button>
+    </div>
+}

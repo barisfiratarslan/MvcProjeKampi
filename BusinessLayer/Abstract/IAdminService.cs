@@ -15,7 +15,8 @@ namespace BusinessLayer.Abstract
         void AddAdmin(AdminDto admin);
         List<Admin> GetList();
         Admin GetByID(int id);
-        void CategoryDelete(Admin admin);
-        void CategoryUpdate(Admin admin);
+        Admin GetByName(string username);
+        void AdminDelete(AdminDto admin);
+        void AdminUpdate(AdminDto admin);
     }
 }

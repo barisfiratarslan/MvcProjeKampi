@@ -10,5 +10,8 @@ namespace BusinessLayer.Abstract
     public interface ITalentService
     {
         List<Talent> GetTalentsByAdmin(int adminID);
+        Talent GetByID(int id);
+        void AddTalent(Talent talent);
+        void UpdateTalent(Talent talent);
     }
 }

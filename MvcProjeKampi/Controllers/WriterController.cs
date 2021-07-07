@@ -5,6 +5,7 @@ using EntityLayer.Concrete;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -34,6 +35,14 @@ namespace MvcProjeKampi.Controllers
             ValidationResult results = writerValidator.Validate(writer);
             if (results.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    string dosyaAdi = Path.GetFileName(Request.Files[0].FileName);
+                    string uzanti = Path.GetExtension(Request.Files[0].FileName);
+                    string yol = "~/AdminLTE-3.0.4/dist/img/" + dosyaAdi + uzanti;
+                    Request.Files[0].SaveAs(Server.MapPath(yol));
+                    writer.WriterImage= "/AdminLTE-3.0.4/dist/img/" + dosyaAdi + uzanti;
+                }
                 writerManager.WriterAdd(writer);
                 return RedirectToAction("Index");
             }
