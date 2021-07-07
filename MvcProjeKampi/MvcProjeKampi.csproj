@@ -2670,7 +2670,15 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="ss\AdminBaşlıkListe.png" />
+    <Content Include="ss\AdminBütünBaşlılar.png" />
+    <Content Include="ss\AdminLoginPaneli.png" />
+    <Content Include="ss\BaşlıkCalender.png" />
+    <Content Include="ss\MesajlarSayfası.png" />
+    <Content Include="ss\SözlükSayfası.png" />
     <Content Include="ss\talentImage.png" />
+    <Content Include="ss\WriterBaşlıklarım.png" />
+    <Content Include="ss\WriterLoginPaneli.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
